@@ -1,17 +1,4 @@
 from abc import ABCMeta, abstractmethod
-from typing import Union
-
-
-class ErrorHandler:
-
-    def __init__(self, method):
-        self.method = method
-
-    def __call__(self, *args, **kwargs):
-        try:
-            self.method(*args, **kwargs)
-        except AttributeError:
-            print("File error: указан неверный тип файла.")
 
 
 def error_catcher(method):
@@ -37,7 +24,7 @@ class AbstractHandler(metaclass=ABCMeta):
         """Handle the event"""
 
 
-class Excel(AbstractHandler):
+class XLSX(AbstractHandler):
 
     def __init__(self):
         self._successor = None
@@ -46,12 +33,16 @@ class Excel(AbstractHandler):
         self._successor = successor
 
     @error_catcher
-    def handle(self, smth):
+    def handle(self, FILE):
         """Handle the event"""
-        if smth == self.__class__.__name__:
-            print(self.__class__.__name__)
+        file_name, file_ext = str(FILE).split(".")
+
+        if file_ext == self.__class__.__name__.lower():
+            with open(FILE, "r") as f:
+                print(f.readlines())
+                # print(self.__class__.__name__)
         else:
-            self._successor.handle(smth)
+            self._successor.handle(FILE)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
@@ -66,12 +57,16 @@ class TXT(AbstractHandler):
         self._successor = successor
 
     @error_catcher
-    def handle(self, smth):
+    def handle(self, FILE):
         """Handle the event"""
-        if smth == self.__class__.__name__:
-            print(self.__class__.__name__)
+        file_name, file_ext = str(FILE).split(".")
+
+        if file_ext == self.__class__.__name__.lower():
+            with open(FILE, "r") as f:
+                print(f.readlines())
+                # print(self.__class__.__name__)
         else:
-            self._successor.handle(smth)
+            self._successor.handle(FILE)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
@@ -86,12 +81,16 @@ class CSV(AbstractHandler):
         self._successor = successor
 
     @error_catcher
-    def handle(self, smth):
+    def handle(self, FILE):
         """Handle the event"""
-        if smth == self.__class__.__name__:
-            print(self.__class__.__name__)
+        file_name, file_ext = str(FILE).split(".")
+
+        if file_ext == self.__class__.__name__.lower():
+            with open(FILE, "r") as f:
+                print(f.readlines())
+                # print(self.__class__.__name__)
         else:
-            self._successor.handle(smth)
+            self._successor.handle(FILE)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
@@ -100,7 +99,7 @@ class CSV(AbstractHandler):
 class FilesChain:
 
     def __init__(self):
-        self.chain1 = Excel()
+        self.chain1 = XLSX()
         self.chain2 = TXT()
         self.chain3 = CSV()
 
@@ -112,8 +111,9 @@ class FilesChain:
         self.chain2.set_successor(self.chain3)
 
 
+# def main():
 if __name__ == "__main__":
-    chain = FilesChain()
+    FILEIO = FilesChain()
 
-    file = str(input("Input file name: "))
-    chain.chain1.handle(file)
+    file = str(input("Input file name: ")) # points.txt for example
+    FILEIO.chain1.handle(file)
