@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
+from lab_1.graphics import Pandas, Matplotlib, Seaborn
+
 
 def error_catcher(method):
     def wrapper(*args, **kwargs):
@@ -111,9 +113,15 @@ class FilesChain:
         self.chain2.set_successor(self.chain3)
 
 
-# def main():
-if __name__ == "__main__":
+@Seaborn
+@Matplotlib
+@Pandas
+def main():
     FILEIO = FilesChain()
 
-    file = str(input("Input file name: ")) # points.txt for example
+    file = str(input("Input file name: "))  # points.txt for example
     FILEIO.chain1.handle(file)
+
+
+if __name__ == "__main__":
+    main()
