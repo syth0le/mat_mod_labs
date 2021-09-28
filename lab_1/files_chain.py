@@ -5,7 +5,7 @@ from typing import Optional
 def error_catcher(method):
     def wrapper(*args, **kwargs):
         try:
-            return method(*args, *kwargs)
+            return method(*args, **kwargs)
         except (AttributeError, ValueError):
             return "File error: указан неверный тип файла."
     return wrapper
