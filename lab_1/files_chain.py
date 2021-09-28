@@ -1,101 +1,129 @@
 from abc import ABCMeta, abstractmethod
-
-from lab_1.graphics import Pandas, Matplotlib, Seaborn
+from typing import Optional
 
 
 def error_catcher(method):
     def wrapper(*args, **kwargs):
         try:
-            method(*args, *kwargs)
-        except AttributeError:
-            print("File error: указан неверный тип файла.")
+            return method(*args, *kwargs)
+        except (AttributeError, ValueError):
+            return "File error: указан неверный тип файла."
     return wrapper
 
 
 class AbstractHandler(metaclass=ABCMeta):
     """The Interface for handling requests."""
 
-    @staticmethod
     @abstractmethod
-    def set_successor(successor):
+    def set_successor(self, successor):
         """Set the next handler in the chain"""
+        pass
 
-    @staticmethod
     @abstractmethod
-    def handle(amount):
+    def handle(self, file) -> Optional[str]:
         """Handle the event"""
+        pass
 
 
 class XLSX(AbstractHandler):
 
     def __init__(self):
         self._successor = None
+        self._temp: list = list()
 
     def set_successor(self, successor):
         self._successor = successor
+        return successor
 
     @error_catcher
     def handle(self, FILE):
-        """Handle the event"""
+        """Handle the *.xlxs file event"""
         file_name, file_ext = str(FILE).split(".")
 
         if file_ext == self.__class__.__name__.lower():
             with open(FILE, "r") as f:
                 print(f.readlines())
                 # print(self.__class__.__name__)
+            print(self._temp)
+            return self.getter()
+            # return 'xlsx cheeeeek'
         else:
-            self._successor.handle(FILE)
+            return self._successor.handle(FILE)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
+
+    def getter(self):
+        return self._temp
 
 
 class TXT(AbstractHandler):
 
     def __init__(self):
         self._successor = None
+        self._temp: list = list()
 
     def set_successor(self, successor):
         self._successor = successor
+        return successor
 
     @error_catcher
     def handle(self, FILE):
-        """Handle the event"""
+        """Handle the *.txt file event"""
         file_name, file_ext = str(FILE).split(".")
 
         if file_ext == self.__class__.__name__.lower():
             with open(FILE, "r") as f:
                 print(f.readlines())
+                for line in f.readlines():
+                    pass
+                # return f.readlines()
                 # print(self.__class__.__name__)
+            print(self._temp)
+            return self.getter()
+            # return 'txt cheeeeek'
         else:
-            self._successor.handle(FILE)
+            return self._successor.handle(FILE)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
+
+    def getter(self):
+        return self._temp
 
 
 class CSV(AbstractHandler):
 
     def __init__(self):
         self._successor = None
+        self._temp: list = list()
 
     def set_successor(self, successor):
         self._successor = successor
+        return successor
 
     @error_catcher
     def handle(self, FILE):
-        """Handle the event"""
+        """Handle the *.csv file event"""
         file_name, file_ext = str(FILE).split(".")
 
         if file_ext == self.__class__.__name__.lower():
             with open(FILE, "r") as f:
-                print(f.readlines())
-                # print(self.__class__.__name__)
+                for line in f.read().split(',\n'):
+                    reformat_line = line[1:-1].split('","')
+                    a = [list(map(float, elem.split(','))) for elem in reformat_line]
+                    self._temp.append(a)
+
+            return self.getter()
+            # return 'csv cheeeeek'
         else:
-            self._successor.handle(FILE)
+            return self._successor.handle(FILE)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
+
+    def getter(self):
+        return self._temp
 
 
 class FilesChain:
@@ -109,19 +137,8 @@ class FilesChain:
         # The Client may compose chains once or
         # the hadler can set them dynamically at
         # handle time
-        self.chain1.set_successor(self.chain2)
-        self.chain2.set_successor(self.chain3)
+        self.chain1.set_successor(self.chain2).set_successor(self.chain3)
 
-
-@Seaborn
-@Matplotlib
-@Pandas
-def main():
-    FILEIO = FilesChain()
-
-    file = str(input("Input file name: "))  # points.txt for example
-    FILEIO.chain1.handle(file)
-
-
-if __name__ == "__main__":
-    main()
+    def client_code(self):
+        FILE = str(input("Input file name: "))
+        return self.chain1.handle(FILE)
