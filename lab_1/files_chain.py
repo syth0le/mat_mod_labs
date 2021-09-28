@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Optional
+import json
 
 
 def error_catcher(method):
@@ -25,7 +26,7 @@ class AbstractHandler(metaclass=ABCMeta):
         pass
 
 
-class XLSX(AbstractHandler):
+class JSON(AbstractHandler):
 
     def __init__(self):
         self._successor = None
@@ -37,18 +38,25 @@ class XLSX(AbstractHandler):
 
     @error_catcher
     def handle(self, FILE):
-        """Handle the *.xlxs file event"""
+        """Handle the *.json file event"""
         file_name, file_ext = str(FILE).split(".")
 
         if file_ext == self.__class__.__name__.lower():
             with open(FILE, "r") as f:
-                print(f.readlines())
-                # print(self.__class__.__name__)
-            print(self._temp)
+                self.deserialization(json.load(f))
+
             return self.getter()
-            # return 'xlsx cheeeeek'
         else:
             return self._successor.handle(FILE)
+
+    def deserialization(self, data):
+        length = len(data['x'])
+
+        for i in range(length):
+            x_temp = list(map(float, data['x'][i]))
+            y_temp = list(map(float, data['y'][i]))
+            temp = [x_temp, y_temp]
+            self._temp.append(temp)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
@@ -74,14 +82,12 @@ class TXT(AbstractHandler):
 
         if file_ext == self.__class__.__name__.lower():
             with open(FILE, "r") as f:
-                print(f.readlines())
-                for line in f.readlines():
-                    pass
-                # return f.readlines()
-                # print(self.__class__.__name__)
-            print(self._temp)
+                for line in f.read().split('\n'):
+                    reformat_line = line[1:-1].split('];[')
+                    a = [list(map(float, elem.split(','))) for elem in reformat_line]
+                    self._temp.append(a)
+
             return self.getter()
-            # return 'txt cheeeeek'
         else:
             return self._successor.handle(FILE)
 
@@ -115,7 +121,6 @@ class CSV(AbstractHandler):
                     self._temp.append(a)
 
             return self.getter()
-            # return 'csv cheeeeek'
         else:
             return self._successor.handle(FILE)
 
@@ -129,7 +134,7 @@ class CSV(AbstractHandler):
 class FilesChain:
 
     def __init__(self):
-        self.chain1 = XLSX()
+        self.chain1 = JSON()
         self.chain2 = TXT()
         self.chain3 = CSV()
 
