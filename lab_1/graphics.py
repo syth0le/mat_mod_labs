@@ -34,7 +34,6 @@ class Pandas(ABSGraphics):
         plt.xlabel('x')
         plt.title('PANDAS GRAPHIC')
         plt.show()
-        # points.json
 
     def __call__(self, *args, **kwargs):
         call = self.function(*args, **kwargs)
