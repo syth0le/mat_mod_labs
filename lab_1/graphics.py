@@ -1,7 +1,8 @@
 from abc import ABCMeta, abstractmethod
 import warnings
+
+import pandas as pd
 from matplotlib import pyplot as plt
-from pandas import DataFrame
 import seaborn as sns
 
 
@@ -18,13 +19,22 @@ class ABSGraphics(metaclass=ABCMeta):
 class Pandas(ABSGraphics):
 
     def drawGraphic(self, vectors):
+        colors = plt.rcParams["axes.prop_cycle"]()
+        fig, ax = plt.subplots()
         for vector in vectors:
-            x = vector[0]
-            y = vector[1]
-        df = DataFrame(vectors, columns=['x', 'y'])
-        df.plot(kind='scatter', data=df, s=120)
-        plt.title("PANDAS GRAPHIC")
+            data = {
+                'x': vector[0],
+                'y': vector[1]
+            }
+            df = pd.DataFrame(data, columns=['x', 'y'])
+            c = next(colors)["color"]
+            df.plot(ax=ax, x='x', y='y', kind='scatter', color=c)
+
+        plt.ylabel('y')
+        plt.xlabel('x')
+        plt.title('PANDAS GRAPHIC')
         plt.show()
+        # points.json
 
     def __call__(self, *args, **kwargs):
         call = self.function(*args, **kwargs)
@@ -36,7 +46,7 @@ class Pandas(ABSGraphics):
 class Matplotlib(ABSGraphics):
 
     def drawGraphic(self, vectors):
-        # print(vectors)
+
         for vector in vectors:
             x = vector[0]
             y = vector[1]
@@ -67,15 +77,3 @@ class Seaborn(ABSGraphics):
         print(self.__class__.__name__)
         self.drawGraphic(call)
         return call
-
-
-class Graphics:
-
-    def __init__(self, func):
-        self.func = func
-
-    def __call__(self, *args, **kwargs):
-        # choose class of graphics
-        # do initialization if class and do some work
-        rez = self.func()
-        plt.show()

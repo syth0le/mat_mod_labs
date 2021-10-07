@@ -1,5 +1,5 @@
 from lab_1.files_chain import FilesChain
-from lab_1.graphics import Matplotlib, Seaborn, Pandas, Graphics
+from lab_1.graphics import Matplotlib, Seaborn, Pandas
 
 
 def index_catcher(method):
@@ -36,9 +36,9 @@ class Delimeter:
             return call[min_gr: max_gr]
         else:
             return "Range Error"
-#
-# @Pandas
-# @Graphics
+
+
+@Pandas
 @Seaborn
 @Matplotlib
 @Delimeter
