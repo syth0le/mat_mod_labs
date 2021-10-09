@@ -50,6 +50,9 @@ class Matplotlib(ABSGraphics):
             x = vector[0]
             y = vector[1]
             plt.scatter(x, y)
+
+        plt.xlabel('x')
+        plt.ylabel('y')
         plt.title("MATPLOTLIB GRAPHIC")
         plt.show()
 
@@ -68,6 +71,8 @@ class Seaborn(ABSGraphics):
             x = vector[0]
             y = vector[1]
             sns.scatterplot(x=x, y=y)
+        plt.xlabel('x')
+        plt.ylabel('y')
         plt.title("SEABORN GRAPHIC")
         plt.show()
 

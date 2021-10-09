@@ -27,12 +27,11 @@ class Delimeter:
             return call if command[0] == 0 else [call[command[0]-1]]
 
         elif len(command) == 2:
-            # write handler for cathching errors
+            # write handler for catching errors
             min_gr = command[0]-1
             max_gr = command[1]
             if min_gr < 0 or max_gr > len(call):
                 return []
-            # print(min_gr, max_gr)
             return call[min_gr: max_gr]
         else:
             return "Range Error"
