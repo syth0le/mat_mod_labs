@@ -1,4 +1,4 @@
-def quick_sort(vector):
+def bubble_sort(vector):
     length = len(vector[0])
 
     # print(vector)
@@ -14,4 +14,4 @@ def quick_sort(vector):
 
 if __name__ == "__main__":
     dots = [[3, 5, 6, 8, 1], [1, 2, 3, 7, 10]]
-    quick_sort(dots)
+    bubble_sort(dots)

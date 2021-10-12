@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from scipy import interpolate
 from abc import ABCMeta, abstractmethod
 
-from utils.sorting import quick_sort
+from utils.sorting import bubble_sort
 
 
 class ABSMethods(metaclass=ABCMeta):
@@ -39,7 +39,7 @@ class Lagranz(ABSMethods):
     def drawGraphic(self, vectors):
 
         for vector in vectors:
-            vector = quick_sort(vector)
+            vector = bubble_sort(vector)
             x = vector[0]
             y = vector[1]
             xl = np.linspace(np.min(x), np.max(x))
@@ -73,7 +73,7 @@ class InterpolationLinear(ABSMethods):
     def drawGraphic(self, vectors):
 
         for vector in vectors:
-            vector = quick_sort(vector)
+            vector = bubble_sort(vector)
             x = vector[0]
             y = vector[1]
             yl = [self.counter(x, y, i) for i in x]
@@ -118,7 +118,7 @@ class InterpolationParabolic(ABSMethods):
     def drawGraphic(self, vectors):
         colors = plt.rcParams["axes.prop_cycle"]()
         for vector in vectors:
-            vector = quick_sort(vector)
+            vector = bubble_sort(vector)
             x = vector[0]
             y = vector[1]
             # a0, a1, a2 = self.counter(x, y)
@@ -160,7 +160,7 @@ class InterpolationSpline(ABSMethods):
 
     def drawGraphic(self, vectors):
         for vector in vectors:
-            vector = quick_sort(vector)
+            vector = bubble_sort(vector)
             x = vector[0]
             y = vector[1]
             xl, yl = self.counter(x, y)
