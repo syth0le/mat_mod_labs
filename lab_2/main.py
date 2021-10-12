@@ -2,6 +2,8 @@ from lab_2.graphics import *
 from utils.delimeter import Delimeter
 from utils.files_chain import FilesChain
 
+# @Graphics
+
 
 @InterpolationSpline
 @InterpolationParabolic

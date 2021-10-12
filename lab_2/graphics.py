@@ -1,13 +1,20 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import interpolate
+from abc import ABCMeta, abstractmethod
 
 from utils.sorting import quick_sort
 
 
-class Lagranz:
+class ABSMethods(metaclass=ABCMeta):
     def __init__(self, function):
         self.function = function
+
+    @abstractmethod
+    def drawGraphic(self, vectors):
+        pass
+
+class Lagranz(ABSMethods):
 
     def __call__(self, *args, **kwargs):
         call = self.function()
@@ -46,9 +53,7 @@ class Lagranz:
         plt.show()
 
 
-class InterpolationLinear:
-    def __init__(self, function):
-        self.function = function
+class InterpolationLinear(ABSMethods):
 
     def __call__(self, *args, **kwargs):
         call = self.function()
@@ -81,9 +86,7 @@ class InterpolationLinear:
         plt.show()
 
 
-class InterpolationParabolic:
-    def __init__(self, function):
-        self.function = function
+class InterpolationParabolic(ABSMethods):
 
     def __call__(self, *args, **kwargs):
         call = self.function()
@@ -113,7 +116,7 @@ class InterpolationParabolic:
         return a0, a1, a2
 
     def drawGraphic(self, vectors):
-
+        colors = plt.rcParams["axes.prop_cycle"]()
         for vector in vectors:
             vector = quick_sort(vector)
             x = vector[0]
@@ -124,16 +127,17 @@ class InterpolationParabolic:
             #     f = a0[i] + a1[i] * xi + a2[i] * xi * xi
             #     plt.plot(xi, f)
             # plt.scatter(x, y)
+            c = next(colors)["color"]
             if len(x) == 3:
                 xl = np.linspace(np.min(x), np.max(x))
                 yl = [self.counter(x, y, arg, 0) for arg in xl]
-                plt.plot(xl, yl)
+                plt.plot(xl, yl, color=c)
                 # Проходимся по каждой паре точек
             for i in range(0, len(x) - 2, 2):
                 xl = np.linspace(x[i], x[i + 2])
                 yl = [self.counter(x, y, arg, i) for arg in xl]
-                plt.plot(xl, yl)
-            plt.scatter(x, y)
+                plt.plot(xl, yl, color=c)
+            plt.scatter(x, y, color=c)
 
         plt.xlabel('x')
         plt.ylabel('y')
@@ -141,9 +145,7 @@ class InterpolationParabolic:
         plt.show()
 
 
-class InterpolationSpline:
-    def __init__(self, function):
-        self.function = function
+class InterpolationSpline(ABSMethods):
 
     def __call__(self, *args, **kwargs):
         call = self.function()
@@ -169,3 +171,32 @@ class InterpolationSpline:
         plt.ylabel('y')
         plt.title("Spline interpolation Method")
         plt.show()
+
+
+class Graphics(ABSMethods):
+
+    def __call__(self, *args, **kwargs):
+        # call = self.function()
+        # print(call)
+        call = 0
+        self.drawGraphic(call)
+        return call
+
+    def drawGraphic(self, call):
+        print("\n1 - Lagranz\n2 - Linear\n3 - Parabolic\n4 - Spline")
+        command = int(input("Введите номер задания (из методички):"))
+        if command == 1:
+            meth = Lagranz(self.function)
+            meth()
+        elif command == 2:
+            meth = InterpolationLinear(self.function)
+            meth()
+        elif command == 3:
+            meth = InterpolationParabolic(self.function)
+            meth()
+        elif command == 4:
+            meth = InterpolationSpline(self.function)
+            meth()
+        else:
+            print("Invalid command")
+
