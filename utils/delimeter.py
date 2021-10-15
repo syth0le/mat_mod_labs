@@ -18,17 +18,19 @@ class Delimeter:
         a = input(f"1-3 - для диапазона или 5 - для одного графика. Для выбора всех графиков введите 0:\n")
         try:
             command = list(map(int, a.split('-')))
+            type_data = 'range'
         except ValueError:
             command = list(map(int, a.split(' ')))
-        return self.ranged(command=command, call=call)
+            type_data = 'list'
+        return self.ranged(command=command, call=call, type_data=type_data)
 
     @index_catcher
-    def ranged(self, command, call):
+    def ranged(self, command, call, type_data):
         temp = []
         if len(command) == 1:
             return call if command[0] == 0 else [call[command[0]-1]]
 
-        elif len(command) == 2:
+        elif len(command) == 2 and type_data == 'range':
             # write handler for catching errors
             min_gr = command[0]-1
             max_gr = command[1]

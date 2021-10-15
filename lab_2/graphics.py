@@ -14,6 +14,7 @@ class ABSMethods(metaclass=ABCMeta):
     def drawGraphic(self, vectors):
         pass
 
+
 class Lagranz(ABSMethods):
 
     def __call__(self, *args, **kwargs):
@@ -71,7 +72,6 @@ class InterpolationLinear(ABSMethods):
         return yx
 
     def drawGraphic(self, vectors):
-
         for vector in vectors:
             vector = bubble_sort(vector)
             x = vector[0]
@@ -199,4 +199,3 @@ class Graphics(ABSMethods):
             meth()
         else:
             print("Invalid command")
-
