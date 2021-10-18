@@ -93,52 +93,27 @@ class InterpolationParabolic(ABSMethods):
         self.drawGraphic(call)
         return call
 
-    def counter(self, x, y, arg, i ):
-        y0 = y[i]
-        y1 = y[i + 1]
-        y2 = y[i + 2]
-        x0 = x[i]
-        x1 = x[i + 1]
-        x2 = x[i + 2]
-        return y0 + (y1 - y0) * (arg - x0) / (x1 - x0) + (1 / (x2 - x0)) * (arg - x0) * (arg - x1) * \
-               (((y2 - y1) / (x2 - x1)) - ((y1 - y0) / (x1 - x0)))
-
-    def counter2(self, x, y):
-        a0 = []
-        a1 = []
-        a2 = []
-        for i in range(1, len(x) - 1):
-            a2.append(((y[i + 1] - y[i - 1]) / ((x[i + 1] - x[i - 1]) * (x[i + 1] - x[i]))) - (
-                        (y[i] - y[i - 1]) / ((x[i] - x[i - 1]) * (x[i + 1] - x[i]))))
-            a1.append((y[i] - y[i - 1] - (a2[i - 1] * ((x[i] ** 2) - (x[i - 1] ** 2)))) / (x[i] - x[i - 1]))
-            a0.append(y[i - 1] - (a1[i - 1] * x[i - 1]) - (a2[i - 1] * (x[i - 1] ** 2)))
-
-        return a0, a1, a2
+    def counter(self, x, y, t):
+        z = 0
+        for i in range(len(x) - 1):
+            if x[i] <= t <= x[i + 1]:
+                M = np.array(
+                    [[x[i - 1] ** 2, x[i - 1], 1], [x[i] ** 2, x[i], 1], [x[i + 1] ** 2, x[i + 1], 1]])
+                v = np.array([y[i - 1], y[i], y[i + 1]])
+                solve = np.linalg.solve(M, v)
+                z = solve[0] * t ** 2 + solve[1] * t + solve[2]
+            i += 1
+        return z
 
     def drawGraphic(self, vectors):
-        colors = plt.rcParams["axes.prop_cycle"]()
         for vector in vectors:
             vector = bubble_sort(vector)
             x = vector[0]
             y = vector[1]
-            # a0, a1, a2 = self.counter(x, y)
-            # for i in range(0, len(x) - 2, 2):
-            #     xi = np.linspace(x[i], x[i + 2])
-            #     f = a0[i] + a1[i] * xi + a2[i] * xi * xi
-            #     plt.plot(xi, f)
-            # plt.scatter(x, y)
-            c = next(colors)["color"]
-            if len(x) == 3:
-                xl = np.linspace(np.min(x), np.max(x))
-                yl = [self.counter(x, y, arg, 0) for arg in xl]
-                plt.plot(xl, yl, color=c)
-                # Проходимся по каждой паре точек
-            for i in range(0, len(x) - 2, 2):
-                xl = np.linspace(x[i], x[i + 2])
-                yl = [self.counter(x, y, arg, i) for arg in xl]
-                plt.plot(xl, yl, color=c)
-            plt.scatter(x, y, color=c)
-
+            plt.scatter(x, y)
+            xnew = np.linspace(np.min(x), np.max(x), 10000)
+            ynew = [self.counter(x, y, i) for i in xnew]
+            plt.plot(xnew, ynew)
         plt.xlabel('x')
         plt.ylabel('y')
         plt.title("Piecewise parabolic interpolation Method")
