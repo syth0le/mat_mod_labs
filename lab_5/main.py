@@ -2,6 +2,7 @@ import random
 
 import numpy as np
 from matplotlib import pyplot as plt
+from numpy import std
 from scipy import integrate
 
 
@@ -69,17 +70,36 @@ def investigate_num_of_nodes_to_1_percent_accuracy():
     return f'Result: {temp} number of separations: {n}, difference: {i}'
 
 
-def count_monte_carlo_method():
-    generate_random_variables(3000)
+def count_monte_carlo_method_first(n=1000, N=100):
+    # generate_random_variables(3000)
+    s = 0
+    I_values = []
+    k_values = []
+    for k in range(1, n + 1):
+        x = random.uniform(Config.MIN, Config.MAX)
+        s += Config.our_function(x)
+        if (k % N) == 0:
+            I = (float(Config.MAX - Config.MIN) / k) * s
+            # print(I)
+            I_values.append(I)
+            k_values.append(k)
+    return k_values, I_values
+
+
+def count_monte_carlo_method_second():
+    pass
 
 
 if __name__ == '__main__':
-    drawGraphic()
+    # drawGraphic()
     print(f'Analytic count: {count_analytically()[0]}')
     print()
     print(f'Trapezium method count: {count_trapezium_method(128)}')
     # print(f'Trapezium method accuracy: {count_trapezium_method_accuracy(128)}')
     print(investigate_num_of_nodes_to_1_percent_accuracy())
     print()
-    print(f'Monte-Carlo method count: {count_monte_carlo_method()}')
-
+    print(f'Monte-Carlo 1st method count: {count_monte_carlo_method_first()}')
+    print(f'Monte-Carlo 2nd method count: {count_monte_carlo_method_first()}')
+    print()
+    print(f'Count standard deviation for 1st method: {std(count_monte_carlo_method_first()[1])}')
+    # print(f'Count standard deviation for 2nd method: {std(count_monte_carlo_method_second()[1])}')
