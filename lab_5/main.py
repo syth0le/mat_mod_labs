@@ -1,107 +1,45 @@
-import random
-
-import numpy as np
-from matplotlib import pyplot as plt
 from numpy import std
-from scipy import integrate
+from rich.console import Console
+from rich.table import Table
+
+from lab_5.accuracy import Accuracy
+from lab_5.draw_graphic import drawGraphic
+from lab_5.integration import Analytical, MonteCarloFirst, MonteCarloSecond, Trapezium
 
 
-class Config:
-    MIN = 0.5
-    MAX = 5
+def main():
+    drawGraphic()
+    console = Console()
+    table_nodes = Table(title='Number of nodes for getting 1 percent accuracy for each method.')
+    table_nodes.add_column('Method name', justify='right', style='cyan', no_wrap=True)
+    table_nodes.add_column('Number of nodes', style='magenta')
 
-    @staticmethod
-    def our_function(x):
-        return np.log(x) / x
+    table_integration = Table(title='Main Table Info')
+    table_integration.add_column('Title', justify='right', style='cyan', no_wrap=True)
+    table_integration.add_column('Number of nodes', style='magenta')
 
-    def __repr__(self):
-        return 'ln(x)/x'
+    trapezium = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(Trapezium.count)
+    monte_carlo_first = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloFirst.count)
+    monte_carlo_second = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloSecond.count)
 
+    table_nodes.add_row(str(Trapezium()), str(trapezium))
+    table_nodes.add_row(str(MonteCarloFirst()), str(monte_carlo_first))
+    table_nodes.add_row(str(MonteCarloSecond()), str(monte_carlo_second))
 
-def drawGraphic():
-    y = lambda x: Config.our_function(x)
-    x = np.linspace(Config.MIN, Config.MAX, 150)
-    plt.plot(x, y(x))
+    table_integration.add_row('Analytic count', str(Analytical.count()))
+    table_integration.add_row('Trapezium method count', str(Trapezium.count(trapezium)))
+    table_integration.add_row()
+    table_integration.add_row('Monte-Carlo 1st method count', str(MonteCarloFirst.count()))
+    table_integration.add_row('Monte-Carlo 2nd method count', str(MonteCarloSecond.count()))
+    table_integration.add_row()
+    table_integration.add_row('Standard deviation for 1st method',
+                              str(std([MonteCarloFirst.count(monte_carlo_first) for _ in range(100)])))  # trapezium
+    table_integration.add_row('Standard deviation for 2nd method',
+                              str(std([MonteCarloSecond.count(monte_carlo_second) for _ in range(100)])))  # trapezium
 
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title(f'Graphic {Config()}')
-    plt.show()
+    console.print(table_nodes)
+    console.print(table_integration)
 
-
-def count_analytically():
-    return integrate.quad(Config.our_function, Config.MIN, Config.MAX)
-
-
-def count_trapezium_method(n):
-    a = Config.MIN
-    b = Config.MAX
-    func = Config.our_function
-    h = (b - a) / n
-    s = 0
-    while round(a, 8) < b:
-        s += 0.5 * h * (func(a) + func(a + h))
-        a += h
-    return s
-
-
-def generate_random_variables(size):
-    r = []
-    for i in range(size):
-        r.append(random.random())
-    return r
-
-
-def count_trapezium_method_accuracy(n):
-    result = count_trapezium_method(2 * n) - count_trapezium_method(n)
-    return result
-
-
-def investigate_num_of_nodes_to_1_percent_accuracy():
-    expected_accuracy = 0.01
-    i = 100
-    n = 1
-    temp = count_trapezium_method(n)
-    while i > expected_accuracy:
-        n *= 2
-        i = count_trapezium_method(n) - temp
-        temp = count_trapezium_method(n)
-
-    return f'Result: {temp} number of separations: {n}, difference: {i}'
-
-
-def count_monte_carlo_method_first(n=1000, N=100):
-    # generate_random_variables(3000)
-    a = Config.MIN
-    b = Config.MAX
-    s = 0
-    I_values = []
-    k_values = []
-    for k in range(1, n + 1):
-        x = random.uniform(Config.MIN, Config.MAX)
-        s += Config.our_function(x)
-        if (k % N) == 0:
-            I = (float(b - a) / k) * s
-            # print(I)
-            I_values.append(I)
-            k_values.append(k)
-    return k_values, I_values
-
-
-def count_monte_carlo_method_second():
-    # https://github.com/cliffigor/MonteCarloIntegral/blob/main/mc.py
-    pass
 
 if __name__ == '__main__':
-    # drawGraphic()
-    print(f'Analytic count: {count_analytically()[0]}')
-    print()
-    print(f'Trapezium method count: {count_trapezium_method(128)}')
-    # print(f'Trapezium method accuracy: {count_trapezium_method_accuracy(128)}')
-    print(investigate_num_of_nodes_to_1_percent_accuracy())
-    print()
-    print(f'Monte-Carlo 1st method count: {count_monte_carlo_method_first()}')
-    print(f'Monte-Carlo 2nd method count: {count_monte_carlo_method_second()}')
-    print()
-    print(f'Count standard deviation for 1st method: {std(count_monte_carlo_method_first()[1])}')
-    # print(f'Count standard deviation for 2nd method: {std(count_monte_carlo_method_second()[1])}')
+    main()
