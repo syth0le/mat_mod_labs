@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from lab_5.config import Config
+from config import Config
 
 
 def drawGraphic():

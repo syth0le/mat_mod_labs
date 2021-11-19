@@ -1,6 +1,6 @@
 import numpy as np
 
-from lab_5.integration import Analytical, Trapezium
+from integration import Analytical, Trapezium
 
 
 class Accuracy:

@@ -2,13 +2,12 @@ from numpy import std
 from rich.console import Console
 from rich.table import Table
 
-from lab_5.accuracy import Accuracy
-from lab_5.draw_graphic import drawGraphic
-from lab_5.integration import Analytical, MonteCarloFirst, MonteCarloSecond, Trapezium
+from accuracy import Accuracy
+from draw_graphic import drawGraphic
+from integration import Analytical, MonteCarloFirst, MonteCarloSecond, Trapezium
 
 
 def main():
-    drawGraphic()
     console = Console()
     table_nodes = Table(title='Number of nodes for getting 1 percent accuracy for each method.')
     table_nodes.add_column('Method name', justify='right', style='cyan', no_wrap=True)
@@ -39,6 +38,7 @@ def main():
 
     console.print(table_nodes)
     console.print(table_integration)
+    drawGraphic()
 
 
 if __name__ == '__main__':

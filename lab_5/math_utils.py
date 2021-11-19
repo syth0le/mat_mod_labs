@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from lab_5.config import Config
+from config import Config
 
 
 def generate_random_variables(size):

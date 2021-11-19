@@ -3,8 +3,8 @@ from abc import ABCMeta, abstractmethod
 
 from scipy import integrate
 
-from lab_5.config import Config
-from lab_5.utils import generate_random_variables, get_function_max
+from config import Config
+from math_utils import generate_random_variables, get_function_max
 
 
 class AbstractIntegration(metaclass=ABCMeta):
