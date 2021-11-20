@@ -68,7 +68,6 @@ class MonteCarloSecond(AbstractIntegration):
             if Y < func(X):
                 k += 1
 
-        breakpoint()
         return M * (b - a) * k / N
 
     def __str__(self):
