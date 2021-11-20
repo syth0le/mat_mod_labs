@@ -62,12 +62,13 @@ class MonteCarloSecond(AbstractIntegration):
         a, b, func = Config.MIN, Config.MAX, Config.our_function
         k = 0
         M = get_function_max(N)
-        for _ in range(1, N + 1):
+        for i in range(N):
             X = a + (b - a) * random()
             Y = M * random()
             if Y < func(X):
                 k += 1
 
+        breakpoint()
         return M * (b - a) * k / N
 
     def __str__(self):

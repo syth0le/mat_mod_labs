@@ -15,26 +15,27 @@ def main():
 
     table_integration = Table(title='Main Table Info')
     table_integration.add_column('Title', justify='right', style='cyan', no_wrap=True)
-    table_integration.add_column('Number of nodes', style='magenta')
+    table_integration.add_column('Title', style='magenta')
 
     trapezium = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(Trapezium.count)
-    monte_carlo_first = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloFirst.count)
-    monte_carlo_second = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloSecond.count)
+    # monte_carlo_first = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloFirst.count)
+    # monte_carlo_second = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloSecond.count)
 
-    table_nodes.add_row(str(Trapezium()), str(trapezium))
-    table_nodes.add_row(str(MonteCarloFirst()), str(monte_carlo_first))
-    table_nodes.add_row(str(MonteCarloSecond()), str(monte_carlo_second))
+    table_nodes.add_row('Num of nodes', str(trapezium))
+    # table_nodes.add_row(str(Trapezium()), str(trapezium))
+    # table_nodes.add_row(str(MonteCarloFirst()), str(monte_carlo_first))
+    # table_nodes.add_row(str(MonteCarloSecond()), str(monte_carlo_second))
 
-    table_integration.add_row('Analytic count', str(Analytical.count()))
-    table_integration.add_row('Trapezium method count', str(Trapezium.count(trapezium)))
+    table_integration.add_row('Analytic count', str(round(Analytical.count(), 3)))
+    table_integration.add_row('Trapezium method count', str(round(Trapezium.count(trapezium), 3)))
     table_integration.add_row()
-    table_integration.add_row('Monte-Carlo 1st method count', str(MonteCarloFirst.count()))
-    table_integration.add_row('Monte-Carlo 2nd method count', str(MonteCarloSecond.count()))
+    table_integration.add_row('Monte-Carlo 1st method count', str(round(MonteCarloFirst.count(trapezium), 3)))
+    table_integration.add_row('Monte-Carlo 2nd method count', str(round(MonteCarloSecond.count(trapezium), 3)))
     table_integration.add_row()
     table_integration.add_row('Standard deviation for 1st method',
-                              str(std([MonteCarloFirst.count(monte_carlo_first) for _ in range(100)])))  # trapezium
+                              str(round(std([MonteCarloFirst.count(trapezium) for _ in range(100)]), 3)))  # trapezium
     table_integration.add_row('Standard deviation for 2nd method',
-                              str(std([MonteCarloSecond.count(monte_carlo_second) for _ in range(100)])))  # trapezium
+                              str(round(std([MonteCarloSecond.count(trapezium) for _ in range(100)]), 3)))  # trapezium
 
     console.print(table_nodes)
     console.print(table_integration)

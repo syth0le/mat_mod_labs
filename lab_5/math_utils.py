@@ -18,4 +18,4 @@ def get_function_max(linspaceLen):
     for x in np.linspace(a, b, linspaceLen):
         func_values.append(func(x))
 
-    return max(func_values)
+    return np.abs(max(func_values) - min(func_values))
