@@ -18,8 +18,8 @@ def main():
     table_integration.add_column('Title', style='magenta')
 
     trapezium = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(Trapezium.count)
-    # monte_carlo_first = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloFirst.count)
-    # monte_carlo_second = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloSecond.count)
+    monte_carlo_first = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloFirst.count)
+    monte_carlo_second = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloSecond.count)
 
     table_nodes.add_row('Num of nodes', str(trapezium))
     # table_nodes.add_row(str(Trapezium()), str(trapezium))

@@ -19,6 +19,8 @@ class Accuracy:
         while i > expected_accuracy:
             n *= 2
             i = func(n) - temp
+            print(temp, func(n), i)
             temp = func(n)
+        print('\n')
         # return f'Result: {temp} number of separations: {n}, difference: {i}'
         return n
