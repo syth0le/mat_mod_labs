@@ -3,6 +3,7 @@ from typing import Callable
 import numpy as np
 from matplotlib import pyplot as plt
 import seaborn as sns
+# https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%B7%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B3%D0%BE_%D1%81%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F
 
 
 func = lambda x: x ** 2 + 2 * np.exp(x)
@@ -30,14 +31,15 @@ def golden_section(a: int, b: int, eps: float, func: Callable):
         else:
             b = x2
 
-    return (a + b) / 2
+    x = (a + b) / 2
+    return x, func(x), f'Iterations: {iterations}'
 
 
 def fibonacci_method(a: int, b: int, n: int, func: Callable):
-    # x1 = a + (b - a) * Fn-2 / Fn
-    # x2 = a + (b - a) * Fn-1 / Fn
-    # y1 = func(x1)
-    # y2 = func(x2)
+    x1 = a + (b - a) * fibonacci_method(a, b, n-2, func) / fibonacci_method(a, b, n, func)
+    x2 = a + (b - a) * fibonacci_method(a, b, n-1, func) / fibonacci_method(a, b, n, func)
+    y1 = func(x1)
+    y2 = func(x2)
     while n > 1:
         n -= 1
         if y1 > y2:
@@ -54,7 +56,7 @@ def fibonacci_method(a: int, b: int, n: int, func: Callable):
             y1 = func(x1)
 
     x = (x1 + x2) / 2
-    return x
+    return x, func(x), f'Iterations: {iterations}'
 
 
 if __name__ == '__main__':
@@ -69,6 +71,7 @@ if __name__ == '__main__':
     # drawGraphic(0, b, func)
     drawGraphic(a, b, func)
     print(golden_section(a, b, eps, func))
+    print(fibonacci_method(a, b, 10, func))
     # for i in range(15):
     #     temp = float(f'-{i}')
     #     print((i, func(i)), (temp, func(temp)))
