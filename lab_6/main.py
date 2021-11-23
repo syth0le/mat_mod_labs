@@ -21,7 +21,7 @@ def drawGraphic(a, b, func):
     plt.show()
 
 
-def golden_section(func: Callable, a: int, b: int, eps=1e-5):
+def golden_section(func: Callable, a: int, b: int, eps=1e-5) -> tuple:
     iterations = 0
     fi = (1 + np.sqrt(5)) / 2  # пропорция золотого сечения
     x1 = b - (b - a) / fi
