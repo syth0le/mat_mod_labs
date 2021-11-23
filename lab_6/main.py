@@ -19,7 +19,8 @@ if __name__ == '__main__':
         n = int(input('Enter number of iterations for fibonacci method: '))
     else:
         n = None
-    drawGraphic(a, b, func)
+
     gss = golden_section(func, a, b, eps)
     fib = get_extremum_of_function_by_fibonacci_method(func, a, b, eps, n)
     print_table(gss, fib)
+    drawGraphic(a, b, func)
