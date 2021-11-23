@@ -31,7 +31,7 @@ def fibonacci_method(function, a: float, b: float, x1: float, x2: float, n: int)
     return fibonacci_method(function, a, b, x1, x2, n - 1)
 
 
-def get_extremum_of_function_by_fibonacci_method(function, a: int, b: int, eps: Union[int, float], n=None) -> float:
+def get_extremum_of_function_by_fibonacci_method(function, a: int, b: int, eps: Union[int, float], n=None) -> tuple:
     if not n:
         n = get_iterations_quantity(a, b, eps)
     x1 = a + (b - a) * fibonacci(n - 2) / fibonacci(n)
