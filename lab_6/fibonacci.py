@@ -1,6 +1,5 @@
 from math import sqrt
-
-import numpy as np
+from typing import Union
 
 
 def fibonacci(n: int) -> float:
@@ -32,17 +31,10 @@ def fibonacci_method(function, a: float, b: float, x1: float, x2: float, n: int)
     return fibonacci_method(function, a, b, x1, x2, n - 1)
 
 
-def get_extremum_of_function_by_fibonacci_method(function, a, b, eps) -> float:
-    n = get_iterations_quantity(a, b, eps)
+def get_extremum_of_function_by_fibonacci_method(function, a: int, b: int, eps: Union[int, float], n=None) -> float:
+    if not n:
+        n = get_iterations_quantity(a, b, eps)
     x1 = a + (b - a) * fibonacci(n - 2) / fibonacci(n)
     x2 = a + (b - a) * fibonacci(n - 1) / fibonacci(n)
 
-    return fibonacci_method(function, a, b, x1, x2, n), get_iterations_quantity(a, b, eps)
-
-
-func = lambda x: x ** 2 + 2 * np.exp(x)
-a = -30
-b = 5
-eps = 1e-5
-
-print(get_extremum_of_function_by_fibonacci_method(func, a, b, eps))
+    return fibonacci_method(function, a, b, x1, x2, n), f'Iterations: {n}'
