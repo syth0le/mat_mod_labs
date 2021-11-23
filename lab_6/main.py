@@ -22,6 +22,7 @@ def drawGraphic(a, b, func):
 
 
 def golden_section(func: Callable, a: int, b: int, eps=1e-5):
+    iterations = 0
     fi = (1 + np.sqrt(5)) / 2  # пропорция золотого сечения
     x1 = b - (b - a) / fi
     x2 = a + (b - a) / fi
@@ -34,10 +35,10 @@ def golden_section(func: Callable, a: int, b: int, eps=1e-5):
 
         x1 = b - (b - a) / fi
         x2 = a + (b - a) / fi
+        iterations += 1
 
     x = (a + b) / 2
-    return x, func(x), \
-        # f'Iterations: {iterations}'
+    return x, func(x), f'Iterations: {iterations}'
 
 
 def fibonacci_method(func: Callable, a: int, b: int, n: int):
@@ -75,7 +76,7 @@ if __name__ == '__main__':
     # n = input('Enter number of iterations for fibonacci method: ')
     # drawGraphic(a, 0, func)
     # drawGraphic(0, b, func)
-    drawGraphic(a, b, func)
+    # drawGraphic(a, b, func)
     print(golden_section(func, a, b, eps))
     print(golden_section(func, a, b))
 
