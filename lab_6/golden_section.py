@@ -20,4 +20,4 @@ def golden_section(func: Callable, a: int, b: int, eps=1e-5) -> tuple:
         iterations += 1
 
     x = (a + b) / 2
-    return x, func(x), f'Iterations: {iterations}'
+    return round(x, 3), round(func(x), 3), f'Iterations: {iterations}'

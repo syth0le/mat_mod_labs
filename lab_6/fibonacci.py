@@ -37,4 +37,5 @@ def get_extremum_of_function_by_fibonacci_method(function, a: int, b: int, eps: 
     x1 = a + (b - a) * fibonacci(n - 2) / fibonacci(n)
     x2 = a + (b - a) * fibonacci(n - 1) / fibonacci(n)
 
-    return fibonacci_method(function, a, b, x1, x2, n), f'Iterations: {n}'
+    return round(fibonacci_method(function, a, b, x1, x2, n), 3), round(function(
+        fibonacci_method(function, a, b, x1, x2, n)), 3), f'Iterations: {n}'
