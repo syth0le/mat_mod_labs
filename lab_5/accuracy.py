@@ -15,12 +15,12 @@ class Accuracy:
         expected_accuracy = np.abs(Analytical.count() / 100)
         i = 100
         n = 1
-        temp = func(n)
+        temp = np.abs(func(n))
         while i > expected_accuracy:
             n *= 2
-            i = func(n) - temp
-            print(temp, func(n), i)
-            temp = func(n)
-        print('\n')
-        # return f'Result: {temp} number of separations: {n}, difference: {i}'
+            i = np.abs(func(n) - temp)
+            # print(temp, func(n), i)
+            temp = np.abs(func(n))
+        #     # print(temp, func(n), i)
+        # print('\n')
         return n
