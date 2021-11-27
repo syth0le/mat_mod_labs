@@ -61,14 +61,14 @@ class MonteCarloSecond(AbstractIntegration):
     def count(N: int = 128):
         a, b, func = Config.MIN, Config.MAX, Config.our_function
         k = 0
-        M, min_value = get_function_max(N)
+        difference, min_value = get_function_max(N)
         for i in range(N):
             X = a + (b - a) * random()
-            Y = min_value + M * random()
+            Y = min_value + difference * random()
             if 0 < Y < func(X):
                 k += 1
 
-        return M * (b - a) * k / N
+        return difference * (b - a) * k / N
 
     def __str__(self):
         return 'Monte-Carlo 2nd method'

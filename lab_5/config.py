@@ -1,14 +1,13 @@
-import numpy as np
+import math
 
 
 class Config:
     MIN = 1
-    # MIN = 0.5
     MAX = 5
 
     @staticmethod
     def our_function(x):
-        return np.log(x) / x
+        return math.log(x, math.e) / x
 
     def __repr__(self):
         return 'ln(x)/x'
