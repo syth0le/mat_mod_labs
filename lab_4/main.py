@@ -1,7 +1,7 @@
 from lab_4.create_sampling import *
 from lab_4.graphs_points import create_histogram, create_polygon
-from lab_4.ploting import plot_histogram, plot_polygon, plot_hist_polygon
 from lab_4.math_utils import *
+from lab_4.ploting import plot_histogram, plot_polygon
 from lab_4.sampling_value import *
 
 # 1.1 Формируем выборку случайных велечин методом обратных функций
@@ -47,7 +47,7 @@ print("_________________________________________________________________________
 sigma_rayleigh = float(input("Введите сигму для релеевского закона: "))
 print("////////////////////////////////////////////////////////////////////////////////")
 
-x_neumann, interval_neumann = create_rayleigh_sampling(sigma_rayleigh, 4)
+x_neumann, interval_neumann = create_rayleigh_sampling(sigma_rayleigh)
 data_hist_neumann, k_neumann = create_histogram(x_neumann, interval_neumann)
 data_polygon_neumann, kp_neumann = create_polygon(x_neumann, interval_neumann)
 
@@ -64,4 +64,4 @@ print("Выборочное математическое ожидание рас
 print("Выборочная дисперсия распределения Рэлея с известным МО: ", find_dispersion(x_neumann, m_ne))
 print("Выборочная дисперсия распределения Рэлея с неизвестным МО: ", find_dispersion(x_neumann, mk))
 
-#plot_hist_polygon(data_polygon_neumann, data_hist_neumann, k_neumann, interval_neumann, "Экспиременте. Распределение Релея")
+# plot_hist_polygon(data_polygon_neumann, data_hist_neumann, k_neumann, interval_neumann, "Экспиременте. Распределение Релея")

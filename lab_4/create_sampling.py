@@ -1,5 +1,4 @@
 from lab_4.math_utils import *
-import random as rnd
 
 
 # Возвращаем выборку и интервал
@@ -33,15 +32,14 @@ def create_gauss_sampling(m, d):
     return x, interval
 
 
-def create_rayleigh_sampling(sigma, n):
+def create_rayleigh_sampling(sigma):
     # Легко убедиться, что максимальное значение приобретает функция если аргумент xl равен sigma
     max_y = rayleigh_distribution(sigma, sigma)
-    br = sigma * n
     ri = generate_random_variables(3000)
     x = []
     i = 1
     while i < 3000:
-        X = br * ri[i]
+        X = sigma * 4 * ri[i]
         Y = max_y * ri[i - 1]
         if Y <= rayleigh_distribution(X, sigma):
             x.append(X)
