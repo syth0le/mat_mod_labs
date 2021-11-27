@@ -2,7 +2,8 @@ import numpy as np
 
 
 class Config:
-    MIN = 0.5
+    MIN = 1
+    # MIN = 0.5
     MAX = 5
 
     @staticmethod

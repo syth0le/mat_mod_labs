@@ -12,15 +12,12 @@ class Accuracy:
 
     @staticmethod
     def investigate_num_of_nodes_to_1_percent_accuracy(func):
-        expected_accuracy = np.abs(Analytical.count() / 100)
+        expected_value = np.abs(Analytical.count())
         i = 100
-        n = 1
-        temp = np.abs(func(n))
-        while i > expected_accuracy:
-            n *= 2
-            i = np.abs(func(n) - temp)
-            # print(temp, func(n), i)
-            temp = np.abs(func(n))
-        #     # print(temp, func(n), i)
-        # print('\n')
-        return n
+        N = 1
+        temp = np.abs(func(N))
+        while i > 1:
+            N *= 2
+            i = np.abs(np.abs(func(N)) - temp) * 100 / expected_value
+            temp = np.abs(func(N))
+        return N

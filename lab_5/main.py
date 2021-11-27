@@ -21,9 +21,8 @@ def main():
     monte_carlo_first = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloFirst.count)
     monte_carlo_second = Accuracy.investigate_num_of_nodes_to_1_percent_accuracy(MonteCarloSecond.count)
 
-    # table_nodes.add_row('Num of nodes', str(trapezium))
     table_nodes.add_row(str(Trapezium()), str(trapezium))
-    monte_carlo_second = 128 if monte_carlo_second < 128 else monte_carlo_second
+    # monte_carlo_second = 128 if monte_carlo_second < 128 else monte_carlo_second
     table_nodes.add_row(str(MonteCarloFirst()), str(monte_carlo_first))
     table_nodes.add_row(str(MonteCarloSecond()), str(monte_carlo_second))
 

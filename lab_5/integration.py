@@ -1,5 +1,5 @@
-from random import random
 from abc import ABCMeta, abstractmethod
+from random import random
 
 from scipy import integrate
 
@@ -58,14 +58,14 @@ class MonteCarloFirst(AbstractIntegration):
 class MonteCarloSecond(AbstractIntegration):
 
     @staticmethod
-    def count(N: int = 100):
+    def count(N: int = 128):
         a, b, func = Config.MIN, Config.MAX, Config.our_function
         k = 0
-        M = get_function_max(N)
+        M, min_value = get_function_max(N)
         for i in range(N):
             X = a + (b - a) * random()
-            Y = M * random()
-            if Y < func(X):
+            Y = min_value + M * random()
+            if 0 < Y < func(X):
                 k += 1
 
         return M * (b - a) * k / N
