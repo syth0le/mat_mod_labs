@@ -3,19 +3,19 @@ import numpy as np
 
 # Фунция с параметрами
 def fun_with_param(a, b, c, d, x):
-    return a * (x**3) + b * (x**2) + c * x + d
+    return a * (x ** 3) + b * (x ** 2) + c * x + d
 
 
 def phi_with_param(a, b, c, d, x):
-    return a * (x**3) + b * (x**2) + (c + 1) * x + d
+    return (a * (x ** 3) + b * (x ** 2) + c * x + d) * 0.01 + x
 
 
 def derivative_fun_with_param(a, b, c, x):
-    return 3 * a * (x**2) + 2 * b * x + c
+    return 3 * a * (x ** 2) + 2 * b * x + c
 
 
 def derivative_phi_with_param(a, b, c, x):
-    return 3 * a * (x**2) + 2 * b * x + c + 1
+    return 3 * a * (x ** 2) + 2 * b * x + c + 1
 
 
 # Функция без параметров

@@ -17,8 +17,9 @@ def newton_method_with_param(x, n, a, b, c, d, eps, number):
             break
         x = root
     print("Число итераций: ", N)
-    print("С параметрами: ", round(root, number))
-    plt.scatter(root, 0, color="red")
+    print("X: ", round(root, number))
+    y = fun_with_param(a, b, c, d, root)
+    plt.scatter(root, y, color="red")
 
 
 def newton_method_without_param(x, n, eps, number):
@@ -36,4 +37,3 @@ def newton_method_without_param(x, n, eps, number):
         x = root
     print("Число итераций: ", N)
     print("Без параметров: ", round(root, number))
-    plt.scatter(root, 0, color="green")

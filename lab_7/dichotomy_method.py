@@ -18,8 +18,9 @@ def dichotomy_method_with_param(eps, number, a, b, c, d, intervalA, intervalB):
             intervalA = root
         root = (intervalB + intervalA) / 2
     print("Число итераций: ", n)
-    print("С параметрами: ", round(root, number))
-    plt.scatter(root, 0, color="red")
+    print("X: ", round(root, number))
+    y = fun_with_param(a, b, c, d, root)
+    plt.scatter(root, y, color="red")
 
 
 def dichotomy_method_without_param(eps, number, intervalA, intervalB):
@@ -38,4 +39,3 @@ def dichotomy_method_without_param(eps, number, intervalA, intervalB):
         root = (intervalB + intervalA) / 2
     print("Число итераций: ", n)
     print("Без параметров: ", round(root, number))
-    plt.scatter(root, 0, color="green")
