@@ -1,7 +1,11 @@
-from simple_iteration_method import *
-from newton_method import *
-from dichotomy_method import *
 import matplotlib.pyplot as plt
+import numpy as np
+
+from dichotomy_method import dichotomy_method_with_param, dichotomy_method_without_param
+from equations import fun_with_param, fun
+from hord_method import hord_method_with_params, hord_method_without_params
+from newton_method import newton_method_with_param, newton_method_without_param
+from simple_iteration_method import iteration_method_with_param, iteration_method_without_param
 
 
 def create_plot(x, y1, y2, title):
@@ -18,22 +22,27 @@ b = float(input("Параметр b: "))
 c = float(input("Параметр c: "))
 d = float(input("Параметр d: "))
 
+intervalA = float(input("Левая граница интервала: "))
+intervalB = float(input("Правая граница интервала: "))
+
+# Строим график функций для наглядности
+x = np.linspace(intervalA, intervalB, 1000)
+y1 = fun_with_param(a, b, c, d, x)
+y2 = fun(x)
+
+plt.plot(x, y1)
+plt.plot(x, y2)
+plt.grid(True)
+plt.show()
+
 x0 = float(input("Начальное приближение x: "))
-eps = float(input("Точность eps: "))
+eps = 0.001
 
 # Узнаем количество знаков после запятой
 s = str(eps)
 number = abs(s.find('.') - len(s)) - 1
 
 n = int(input("Число итераций n: "))
-
-intervalA = float(input("Граница интервала A: "))
-intervalB = float(input("Граница интервала B: "))
-
-# Строим график функций для наглядности
-x = np.linspace(intervalA, intervalB, 1000)
-y1 = fun_with_param(a, b, c, d, x)
-y2 = fun(x)
 
 print("\n-----------------------------------------------------------------")
 print("Метод простых итераций")
@@ -67,3 +76,13 @@ dichotomy_method_without_param(eps, number, intervalA, intervalB)
 
 # Показываем графики для метода дихотомии
 create_plot(x, y1, y2, "Метод дихотомии")
+
+print("-----------------------------------------------------------------")
+print("Метод хорд")
+
+# Ищем приближение для функции с параметрами
+hord_method_with_params(x0, n, a, b, c, d, eps, number)
+# Ищем приближение для функции без параметрами
+hord_method_without_params(x0, n, eps, number)
+# Показываем графики для метода дихотомии
+create_plot(x, y1, y2, "Метод хорд")

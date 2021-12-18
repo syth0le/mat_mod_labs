@@ -1,5 +1,6 @@
-from equations import *
 import matplotlib.pyplot as plt
+
+from equations import *
 
 
 def iteration_method_with_param(x, eps, number, a, b, c, d):
@@ -15,7 +16,7 @@ def iteration_method_with_param(x, eps, number, a, b, c, d):
         root = phi_with_param(a, b, c, d, x)
     print("Число итераций: ", n)
     print("С параметрами: ", round(root, number))
-    plt.scatter(root, 0)
+    plt.scatter(root, 0, color="red")
 
 
 def iteration_method_without_param(x, eps, number):
@@ -31,4 +32,4 @@ def iteration_method_without_param(x, eps, number):
         root = phi(x)
     print("Число итераций: ", n)
     print("Без параметров: ", round(root, number))
-    plt.scatter(root, 0)
+    plt.scatter(root, 0, color="green")
