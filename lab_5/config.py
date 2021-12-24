@@ -1,4 +1,4 @@
-import math
+import numpy as np
 
 
 class Config:
@@ -7,7 +7,7 @@ class Config:
 
     @staticmethod
     def our_function(x):
-        return math.log(x, math.e) / x
+        return np.log(x) / x
 
     def __repr__(self):
         return 'ln(x)/x'
